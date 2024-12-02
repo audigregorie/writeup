@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import DemoHome from './pages/DemoHome/DemoHome';
-import DemoHomeHeader from './pages/DemoHome/DemoHomeHeader';
-import Home from './pages/Home/Home';
-import HomeHeader from './pages/Home/HomeHeader';
 import { useAuth } from './context/AuthProvider';
+import HomeHeader from './page/Home/HomeHeader';
+import DemoHomeHeader from './page/DemoHome/DemoHomeHeader';
+import DemoHome from './page/DemoHome/DemoHome';
+import Home from './page/Home/Home';
 
 function App() {
   const { currentUser } = useAuth();
