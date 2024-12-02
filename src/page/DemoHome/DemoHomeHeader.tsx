@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Auth from '../../features/Auth/Auth';
 import { navItems } from '../../utils/constants';
+import Auth from '../../features/Auth/Auth';
 
 const DemoHomeHeader = () => {
   const [isActive, setIsActive] = useState(false);
