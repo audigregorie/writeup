@@ -5,8 +5,8 @@ import AuthButton from './AuthButton';
 import LogIn from './LogIn';
 import Signup from './SignUp';
 import { ModalProps } from '../../utils/types/common';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth, db } from '../../../firebase/firebase';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, db, provider } from '../../../firebase/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -21,7 +21,7 @@ const Auth: React.FC<ModalProps> = ({ modal, setModal }) => {
 
   const handleGoogleAuth = async () => {
     try {
-      const userCredential = await signInWithPopup(auth, new GoogleAuthProvider());
+      const userCredential = await signInWithPopup(auth, provider);
       const newUser = userCredential.user;
 
       const docRef = doc(db, 'users', newUser.uid);
@@ -35,16 +35,15 @@ const Auth: React.FC<ModalProps> = ({ modal, setModal }) => {
           userImg: newUser.photoURL,
           bio: ''
         });
-        toast.success('Welcome! Your account has been created.');
       } else {
-        toast.success('Welcome back!');
+        toast.error('User already exisits');
       }
 
       navigate('/');
       toast.success('Signed in successfully!');
       setModal(false);
     } catch (err: any) {
-      console.error('Error during Google authentication:', err);
+      console.error('Error during Google sign in:', err);
       toast.error(`Failed to sign in with Google: ${err.message}`);
     }
   };
@@ -83,9 +82,9 @@ const Auth: React.FC<ModalProps> = ({ modal, setModal }) => {
               </p>
             </>
           ) : signRequest === 'sign-in' ? (
-            <LogIn setSignRequest={setSignRequest} />
+            <LogIn setModal={setModal} setSignRequest={setSignRequest} />
           ) : signRequest === 'sign-up' ? (
-            <Signup setSignRequest={setSignRequest} />
+            <Signup setModal={setModal} setSignRequest={setSignRequest} />
           ) : null}
 
           <p className="max-w-[30rem] text-center text-sm">

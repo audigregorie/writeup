@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export type AuthButtonProps = {
   icon: React.ReactNode;
@@ -15,6 +15,7 @@ export type ModalProps = {
 
 export type AuthProps = {
   setSignRequest: (value: string) => void;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type ProviderProps = {
@@ -24,4 +25,20 @@ export type ProviderProps = {
 export type AuthContextProps = {
   currentUser: boolean;
   setCurrentUser: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type SignUpFormProps = LogInFormProps & {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+export type LogInFormProps = Omit<SignUpFormProps, 'username', 'confirmPassword'>;
+
+export type InputProps = {
+  type: string;
+  name: string;
+  label: string;
+  form: SignUpFormProps;
+  setForm: React.Dispatch<React.SetStateAction<SignUpFormProps>>;
 };
