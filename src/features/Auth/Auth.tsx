@@ -2,17 +2,17 @@ import { LiaTimesSolid } from 'react-icons/lia';
 import { useState } from 'react';
 import Modal from '../../components/Modal';
 import AuthButton from './AuthButton';
+import LogIn from './LogIn';
+import Signup from './SignUp';
 import { ModalProps } from '../../utils/types/common';
-import { signInWithPopup } from 'firebase/auth';
-import { auth, db, provider } from '../../../firebase/firebase';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth, db } from '../../../firebase/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { MdFacebook } from 'react-icons/md';
 import { AiOutlineMail } from 'react-icons/ai';
-import LogIn from './LogIn';
-import Signup from './SignUp';
 
 const Auth: React.FC<ModalProps> = ({ modal, setModal }) => {
   const [createUser, setCreateUser] = useState<boolean>(false);
@@ -21,28 +21,31 @@ const Auth: React.FC<ModalProps> = ({ modal, setModal }) => {
 
   const handleGoogleAuth = async () => {
     try {
-      const createUser = await signInWithPopup(auth, provider);
-      const newUser = createUser.user;
+      const userCredential = await signInWithPopup(auth, new GoogleAuthProvider());
+      const newUser = userCredential.user;
 
-      const ref = doc(db, 'users', newUser.uid);
-      const userDoc = await getDoc(ref);
+      const docRef = doc(db, 'users', newUser.uid);
+      const userDoc = await getDoc(docRef);
 
       if (!userDoc.exists()) {
-        await setDoc(ref, {
+        await setDoc(docRef, {
           userId: newUser.uid,
           username: newUser.displayName,
           email: newUser.email,
           userImg: newUser.photoURL,
           bio: ''
         });
-
-        navigate('/');
-        toast.success('User created successfully!');
-        setModal(false);
+        toast.success('Welcome! Your account has been created.');
+      } else {
+        toast.success('Welcome back!');
       }
+
+      navigate('/');
+      toast.success('Signed in successfully!');
+      setModal(false);
     } catch (err: any) {
-      console.error('Error during Google authentication:', err.message);
-      toast.error('Failed to sign in with Google.');
+      console.error('Error during Google authentication:', err);
+      toast.error(`Failed to sign in with Google: ${err.message}`);
     }
   };
 

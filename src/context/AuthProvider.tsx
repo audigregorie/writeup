@@ -1,14 +1,33 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { AuthContextProps, ProviderProps } from '../utils/types/common';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebase/firebase';
+import Loading from '../components/Loading';
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<any | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  return <AuthContext.Provider value={{ currentUser, setCurrentUser }}>{children}</AuthContext.Provider>;
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [currentUser]);
+
+  return <AuthContext.Provider value={{ currentUser, setCurrentUser }}>{loading ? <Loading /> : children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
 
-export const useAuth = (): AuthContextProps | undefined => useContext(AuthContext);
+export const useAuth = (): AuthContextProps => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};

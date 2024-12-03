@@ -37,7 +37,7 @@ const DemoHomeHeader = () => {
             <Auth modal={modal} setModal={setModal} />
           </div>
 
-          <button onClick={() => setModal(true)} className={`btn bg-black1 rounded-full text-white ${isActive ? 'bg-green-700' : 'bg-black'}`}>
+          <button onClick={() => setModal(true)} className={`btn rounded-full bg-black1 text-white ${isActive ? 'bg-green-700' : 'bg-black'}`}>
             Get Started
           </button>
         </div>
