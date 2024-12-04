@@ -1,23 +1,23 @@
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 import Input from '../../components/Input';
-import { AuthProps, LogInFormProps } from '../../utils/types/common';
+import { AuthProps, SignInFormProps } from '../../utils/types/common';
 import { FormEvent, useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebase/firebase';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-const LogIn: React.FC<AuthProps> = ({ setSignRequest, setModal }) => {
+const SignIn: React.FC<AuthProps> = ({ setSignRequest, setModal }) => {
   const navigate = useNavigate();
-  const [form, setForm] = useState<LogInFormProps>({
+  const [form, setForm] = useState<SignInFormProps>({
     email: '',
     password: ''
   });
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Partial<LogInFormProps>>({});
+  const [errors, setErrors] = useState<Partial<SignInFormProps>>({});
 
   const validateForm = () => {
-    const formErrors: Partial<LogInFormProps> = {};
+    const formErrors: Partial<SignInFormProps> = {};
 
     if (!form.email.trim()) {
       formErrors.email = 'Please enter your email';
@@ -46,15 +46,15 @@ const LogIn: React.FC<AuthProps> = ({ setSignRequest, setModal }) => {
       setModal(false);
       setLoading(false);
     } catch (err: any) {
-      console.error('Error during login:', err);
-      toast.error(`Error during login: ${err.message}`);
+      console.error('Error during sign in:', err);
+      toast.error(`Error during sign in: ${err.message}`);
       setLoading(false);
     }
   };
 
   return (
     <div className="container mt-24 flex flex-col gap-6 text-center">
-      <h2 className="text-3xl">Log in with email</h2>
+      <h2 className="text-3xl">Sign in with email</h2>
       <p className="mx-auto w-full sm:w-[25rem]">Enter the email address associated with your account.</p>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
@@ -67,14 +67,14 @@ const LogIn: React.FC<AuthProps> = ({ setSignRequest, setModal }) => {
         </div>
         <button
           className={`mx-auto mt-4 rounded-full bg-green-700 px-12 py-2 text-sm text-white hover:bg-green-800 ${loading ? 'pointer-events-none opacity-50' : ''}`}>
-          Log In
+          Sign In
         </button>
       </form>
       <button onClick={() => setSignRequest('')} className="hover:text-greeen-700 mx-auto flex items-center text-sm text-green-600">
-        <MdKeyboardArrowLeft /> All login options
+        <MdKeyboardArrowLeft /> All sign in options
       </button>
     </div>
   );
 };
 
-export default LogIn;
+export default SignIn;

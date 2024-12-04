@@ -1,13 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { AuthContextProps, ProviderProps } from '../utils/types/common';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '../../firebase/firebase';
 import Loading from '../components/Loading';
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<any | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const AuthProvider: React.FC<ProviderProps> = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [currentUser]);
+  }, []);
 
   return <AuthContext.Provider value={{ currentUser, setCurrentUser }}>{loading ? <Loading /> : children}</AuthContext.Provider>;
 };

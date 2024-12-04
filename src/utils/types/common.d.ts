@@ -1,3 +1,4 @@
+import { User } from 'firebase/auth';
 import React, { ReactNode } from 'react';
 
 export type AuthButtonProps = {
@@ -11,6 +12,7 @@ export type ModalProps = {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
   hiddenStyle?: string;
   children?: React.ReactNode;
+  fullScreen?: boolean;
 };
 
 export type AuthProps = {
@@ -23,17 +25,17 @@ export type ProviderProps = {
 };
 
 export type AuthContextProps = {
-  currentUser: boolean;
-  setCurrentUser: React.Dispatch<React.SetStateAction<boolean>>;
+  currentUser: User | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
 };
 
-export type SignUpFormProps = LogInFormProps & {
+export type SignUpFormProps = SignInFormProps & {
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
 };
-export type LogInFormProps = Omit<SignUpFormProps, 'username', 'confirmPassword'>;
+export type SignInFormProps = Omit<SignUpFormProps, 'username', 'confirmPassword'>;
 
 export type InputProps = {
   type: string;
@@ -41,4 +43,10 @@ export type InputProps = {
   label: string;
   form: SignUpFormProps;
   setForm: React.Dispatch<React.SetStateAction<SignUpFormProps>>;
+};
+
+export type UserModalProps = {
+  title: string;
+  icon: React.ReactNode;
+  path: string;
 };

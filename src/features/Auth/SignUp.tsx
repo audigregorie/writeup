@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 import Input from '../../components/Input';
 import { AuthProps, SignUpFormProps } from '../../utils/types/common';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db } from '../../../firebase/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import toast from 'react-hot-toast';
@@ -52,12 +52,12 @@ const Signup: React.FC<AuthProps> = ({ setSignRequest, setModal }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     try {
       setLoading(true);
       const { user } = await createUserWithEmailAndPassword(auth, form.email, form.password);
+      await updateProfile(user, { displayName: form.username });
 
       const docRef = doc(db, 'users', user.uid);
       const userDoc = await getDoc(docRef);
