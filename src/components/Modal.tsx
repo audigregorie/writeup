@@ -8,14 +8,12 @@ const Modal: React.FC<ModalProps> = ({ children, modal, setModal, fullScreen = t
           {/* Overlay */}
           <div
             onClick={() => setModal(false)}
-            className={`fixed inset-0 z-10 bg-gray-400/50 transition-all duration-500 ${modal ? 'visible opacity-100' : 'invisible opacity-0'}`}
+            className={`fixed inset-0 z-10 bg-gray-400/50 transition-all ${modal ? 'visible opacity-100' : 'invisible opacity-0'}`}
           />
           {/* Content */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`fixed inset-0 z-20 flex items-center justify-center transition-all duration-500 ${
-              modal ? 'visible opacity-100' : 'invisible opacity-0'
-            }`}>
+            className={`fixed inset-0 z-20 flex items-center justify-center transition-all ${modal ? 'visible opacity-100' : 'invisible opacity-0'}`}>
             {children}
           </div>
         </>
@@ -24,12 +22,10 @@ const Modal: React.FC<ModalProps> = ({ children, modal, setModal, fullScreen = t
           {/* Overlay */}
           <div
             onClick={() => setModal(false)}
-            className={`fixed inset-0 z-10 bg-transparent transition-all duration-500 ${modal ? 'visible opacity-100' : 'invisible opacity-0'}`}
+            className={`fixed inset-0 z-10 bg-transparent transition-all ${modal ? 'visible opacity-100' : 'invisible opacity-0'}`}
           />
           {/* Content */}
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={`absolute z-20 transition-all duration-500 ${modal ? 'visible opacity-100' : 'invisible opacity-0'}`}>
+          <div onClick={(e) => e.stopPropagation()} className={`absolute z-20 transition-all ${modal ? 'visible opacity-100' : 'invisible opacity-0'}`}>
             {children}
           </div>
         </>

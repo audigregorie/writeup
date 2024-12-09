@@ -36,7 +36,7 @@ const UserModal = () => {
 
   return (
     <section className="shadows absolute -right-10 top-4 z-50 w-[18rem] rounded-md bg-white p-6 text-gray-500">
-      <Link to="/write" className="flex items-center gap-2 pb-3 text-gray-500 md:hidden">
+      <Link to="/write" className="flex items-center gap-2 pb-3 text-gray-500 sm:hidden">
         <span className="text-2xl md:text-3xl">
           <LiaEditSolid />
         </span>

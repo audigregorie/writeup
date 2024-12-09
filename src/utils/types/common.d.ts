@@ -8,7 +8,7 @@ export type AuthButtonProps = {
 };
 
 export type ModalProps = {
-  modal?: boolean;
+  modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
   hiddenStyle?: string;
   children?: React.ReactNode;
