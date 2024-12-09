@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = ({ children, modal, setModal, fullScreen = t
           {/* Content */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`absolute right-0 top-0 z-20 transition-all duration-500 ${modal ? 'visible opacity-100' : 'invisible opacity-0'}`}>
+            className={`absolute z-20 transition-all duration-500 ${modal ? 'visible opacity-100' : 'invisible opacity-0'}`}>
             {children}
           </div>
         </>

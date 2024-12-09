@@ -11,7 +11,7 @@ import UserModal from '../../components/UserModal';
 import { useAuth } from '../../context/AuthProvider';
 
 const HomeHeader = () => {
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
   const { currentUser } = useAuth();
 
   const getAvatarContent = () => {
